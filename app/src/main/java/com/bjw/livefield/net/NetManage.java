@@ -23,6 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetManage {
     private static NetManage sManage;
     private ZhiHuService mZhiHuService;
+
+    private Object zhihuMonitor = new Object();
     /**
      * 自定义拦截器及有无网络的缓存过期时间
      */
@@ -47,7 +49,6 @@ public class NetManage {
             }
         }
     };
-
     private static File httpCacheDirectory = new File(MyApplication
             .getContext().getCacheDir(), "zhihuCache");
     private static int cacheSize = 1024 * 1024 * 10;
@@ -74,7 +75,7 @@ public class NetManage {
 
     public ZhiHuService getZhiHuService() {
         if (mZhiHuService == null) {
-            synchronized (NetManage.class) {
+            synchronized (zhihuMonitor) {
                 if (mZhiHuService == null) {
                     mZhiHuService = new Retrofit.Builder()
                             .baseUrl(ZHI_HU_BASE_URL)

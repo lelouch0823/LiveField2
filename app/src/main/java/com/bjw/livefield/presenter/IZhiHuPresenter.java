@@ -10,5 +10,5 @@ public interface IZhiHuPresenter extends BasePresenter {
 
     void getZhiHuDaily(String date);
 
-    void getLastFromCache();
+    void getLastZhiHuFromCache();
 }

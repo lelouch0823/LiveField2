@@ -11,4 +11,6 @@ import rx.Observable;
  */
 public interface IZhiHuDailyModel {
     Observable<ZhiHuDaily> getLastZhiHuDaily();
+
+    Observable<ZhiHuDaily> getCurrentZhiHuDaily();
 }

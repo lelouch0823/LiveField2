@@ -2,11 +2,14 @@ package com.bjw.livefield.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 
 import com.bjw.livefield.R;
+import com.bjw.livefield.presenter.impl.ZhiHuPresenterImpl;
+import com.bjw.livefield.ui.fragment.ZhiHuFragment;
 
-public class MainActivity extends SingleFragmentActivity {
+public class MainActivity extends SingleFragmentActivity implements ZhiHuFragment.OnFragmentInteractionListener{
 
 
     @Override
@@ -16,7 +19,10 @@ public class MainActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return null;
+        ZhiHuFragment zhiHuFragment = ZhiHuFragment.newInstance();
+        ZhiHuPresenterImpl presenter = new ZhiHuPresenterImpl(this, zhiHuFragment);
+        zhiHuFragment.setPresenter(presenter);
+        return zhiHuFragment;
     }
 
 
@@ -27,7 +33,18 @@ public class MainActivity extends SingleFragmentActivity {
      */
     public static void start(Context context) {
 
-        Intent starter = new Intent(context, ZhiHuActivity.class);
+        Intent starter = new Intent(context, MainActivity.class);
         context.startActivity(starter);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    public interface LoadingMoreItem {
+        void loadFinish();
+
+        void loadStart();
     }
 }
