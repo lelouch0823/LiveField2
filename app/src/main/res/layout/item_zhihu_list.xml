@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              android:orientation="horizontal"
+              android:id="@+id/ll_zhihu_item"
               android:layout_width="match_parent"
+              android:padding="3dp"
+              android:minHeight="60dp"
               android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/zhihu_list_item_pic_width"
+        android:layout_height="@dimen/zhihu_list_item_pic_height"/>
+
     <TextView
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
         android:id="@+id/tv_title"
-        android:text="ddd"
+        android:textSize="16sp"
         android:textColor="@color/colorAccent"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"/>
 </LinearLayout>

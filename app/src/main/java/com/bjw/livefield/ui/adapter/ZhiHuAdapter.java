@@ -4,14 +4,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bjw.livefield.MyApplication;
 import com.bjw.livefield.R;
 import com.bjw.livefield.bean.ZhihuDailyItem;
+import com.bjw.livefield.utils.DensityUtil;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.bjw.livefield.MyApplication.mContext;
 
 /**
  * description:
@@ -21,6 +26,13 @@ import java.util.List;
 public class ZhiHuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<ZhihuDailyItem> mStories = new ArrayList<>();
+    float width;
+    int widthPx;
+    int heighPx;
+
+    public ZhiHuAdapter() {
+
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,8 +47,15 @@ public class ZhiHuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void bindDate(ZhiHuHolder holder, int position) {
+        width = mContext.getResources().getDimension(R.dimen.zhihu_list_item_pic_width);
+        widthPx = DensityUtil.dip2px(mContext, width);
+        heighPx = widthPx * 3 / 4;
         ZhihuDailyItem zhihuDailyItem = mStories.get(position);
         holder.mTextView.setText(zhihuDailyItem.getTitle());
+        Glide.with(MyApplication.getContext())
+                .load(zhihuDailyItem.getImages()[0])
+                .centerCrop().override(widthPx, heighPx)
+                .into(holder.mImageView);
     }
 
     @Override
@@ -59,10 +78,11 @@ public class ZhiHuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private class ZhiHuHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
-
+        ImageView mImageView;
         ZhiHuHolder(View itemView) {
             super(itemView);
             mTextView = (TextView) itemView.findViewById(R.id.tv_title);
+            mImageView = (ImageView) itemView.findViewById(R.id.iv_pic);
         }
     }
 }

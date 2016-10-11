@@ -2,20 +2,26 @@ package com.bjw.livefield.ui.fragment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.bjw.livefield.R;
 import com.bjw.livefield.bean.ZhiHuDaily;
 import com.bjw.livefield.presenter.IZhiHuPresenter;
+import com.bjw.livefield.presenter.impl.ZhiHuPresenterImpl;
 import com.bjw.livefield.ui.adapter.ZhiHuAdapter;
 import com.bjw.livefield.ui.view.implView.IZhiHuView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -27,6 +33,9 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     ProgressBar mPbLoading;
     @BindView(R.id.imgBtn_retry)
     ImageButton mImgBtnRetry;
+    @BindView(R.id.srl_zhihu_refresh)
+    SwipeRefreshLayout mRefreshLayout;
+
 
     private OnFragmentInteractionListener mListener;
     public IZhiHuPresenter mPresenter;
@@ -64,6 +73,7 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mPresenter.unsubcrible();
     }
 
     @Override
@@ -80,20 +90,31 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     @Override
     public void updateList(ZhiHuDaily daily) {
         if (mAdapter != null) {
-            mAdapter.addItem(daily.getStories());
+            if (mRefreshLayout.isRefreshing()) {
+                mAdapter.clearDate();
+                mAdapter.addItem(daily.getStories());
+            } else {
+                mAdapter.addItem(daily.getStories());
+            }
         }
     }
 
     @Override
     public void showProgressDialog() {
-        mPbLoading.setVisibility(View.VISIBLE);
-        mRecyclerView.setVisibility(View.GONE);
+        if (!mRefreshLayout.isRefreshing()) {
+            mPbLoading.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void hidenProgressDialog() {
-        mPbLoading.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
+        if (!mRefreshLayout.isRefreshing()) {
+            mPbLoading.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+         mRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -103,8 +124,16 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
 
     @Override
     protected void initialView() {
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mRefreshLayout.setRefreshing(true);
+                mPresenter.getLastZhiHuNews();
+            }
+        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
         loadData();
     }
@@ -119,11 +148,23 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     @Override
     protected void initialDate() {
         mAdapter = new ZhiHuAdapter();
-        //mPresenter = new ZhiHuPresenterImpl(mContext, this);
+        if (mPresenter == null) {
+            mPresenter = new ZhiHuPresenterImpl(mContext, this);
+        }
     }
 
     @OnClick(R.id.imgBtn_retry)
     public void onClick() {
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
 

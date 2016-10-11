@@ -1,6 +1,7 @@
 package com.bjw.livefield.model;
 
 import com.bjw.livefield.bean.ZhiHuDaily;
+import com.bjw.livefield.bean.ZhihuStory;
 
 import rx.Observable;
 
@@ -13,4 +14,7 @@ public interface IZhiHuDailyModel {
     Observable<ZhiHuDaily> getLastZhiHuDaily();
 
     Observable<ZhiHuDaily> getCurrentZhiHuDaily();
+
+    Observable<ZhihuStory> getZhiHuStory(String id);
+
 }

@@ -12,6 +12,9 @@ import com.bjw.livefield.ui.fragment.ZhiHuFragment;
 public class MainActivity extends SingleFragmentActivity implements ZhiHuFragment.OnFragmentInteractionListener{
 
 
+
+    public ZhiHuFragment mZhiHuFragment;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_main;
@@ -19,12 +22,13 @@ public class MainActivity extends SingleFragmentActivity implements ZhiHuFragmen
 
     @Override
     protected Fragment createFragment() {
-        ZhiHuFragment zhiHuFragment = ZhiHuFragment.newInstance();
-        ZhiHuPresenterImpl presenter = new ZhiHuPresenterImpl(this, zhiHuFragment);
-        zhiHuFragment.setPresenter(presenter);
-        return zhiHuFragment;
+        if (mZhiHuFragment == null) {
+            mZhiHuFragment = ZhiHuFragment.newInstance();
+        }
+        ZhiHuPresenterImpl presenter = new ZhiHuPresenterImpl(this, mZhiHuFragment);
+        mZhiHuFragment.setPresenter(presenter);
+        return mZhiHuFragment;
     }
-
 
 
     /**

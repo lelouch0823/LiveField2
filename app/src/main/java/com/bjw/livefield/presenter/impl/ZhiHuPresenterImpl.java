@@ -51,7 +51,6 @@ public class ZhiHuPresenterImpl extends BasePresenterImpl implements IZhiHuPrese
     public void getLastZhiHuNews() {
         mIZhiHuView.showProgressDialog();
         Subscription subscribe = mModel.getLastZhiHuDaily()
-        //Subscription subscribe = NetManage.getInstance().getZhiHuService().getLastDaily()
                 .map(new Func1<ZhiHuDaily, ZhiHuDaily>() {
                     @Override
                     public ZhiHuDaily call(ZhiHuDaily daily) {
@@ -76,14 +75,14 @@ public class ZhiHuPresenterImpl extends BasePresenterImpl implements IZhiHuPrese
                     public void onError(Throwable e) {
                         mIZhiHuView.hidenProgressDialog();
                         mIZhiHuView.showError(e.getMessage());
-                        Logger.e(e,"错误","的");
+                        Logger.e(e,"错误");
                     }
 
                     @Override
                     public void onNext(ZhiHuDaily daily) {
-                        mIZhiHuView.hidenProgressDialog();
                         mCacheUtil.put(Config.ZHIHU, mGson.toJson(daily));
                         mIZhiHuView.updateList(daily);
+                        mIZhiHuView.hidenProgressDialog();
                     }
                 });
         addSubscription(subscribe);

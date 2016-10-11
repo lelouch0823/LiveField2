@@ -2,6 +2,7 @@ package com.bjw.livefield.model.impl;
 
 import com.bjw.livefield.api.ZhiHuService;
 import com.bjw.livefield.bean.ZhiHuDaily;
+import com.bjw.livefield.bean.ZhihuStory;
 import com.bjw.livefield.model.IZhiHuDailyModel;
 import com.bjw.livefield.net.NetManage;
 
@@ -22,6 +23,13 @@ public class ZhiHuDailyModelImpl implements IZhiHuDailyModel {
     @Override
     public Observable<ZhiHuDaily> getCurrentZhiHuDaily() {
         return null;
+    }
+
+    @Override
+    public Observable<ZhihuStory> getZhiHuStory(String id) {
+        Observable<ZhihuStory> zhihuStory = NetManage.getInstance().getZhiHuService()
+                .getZhihuStory(id);
+        return zhihuStory;
     }
 
 }
