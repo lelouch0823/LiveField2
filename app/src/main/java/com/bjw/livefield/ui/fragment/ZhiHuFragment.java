@@ -3,6 +3,7 @@ package com.bjw.livefield.ui.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +16,7 @@ import android.widget.ProgressBar;
 
 import com.bjw.livefield.R;
 import com.bjw.livefield.bean.ZhiHuDaily;
-import com.bjw.livefield.presenter.IZhiHuPresenter;
+import com.bjw.livefield.presenter.BasePresenter;
 import com.bjw.livefield.presenter.impl.ZhiHuPresenterImpl;
 import com.bjw.livefield.ui.adapter.ZhiHuAdapter;
 import com.bjw.livefield.ui.view.implView.IZhiHuView;
@@ -38,8 +39,8 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
 
 
     private OnFragmentInteractionListener mListener;
-    public IZhiHuPresenter mPresenter;
     public ZhiHuAdapter mAdapter;
+    public ZhiHuPresenterImpl mPresenter;
 
 
     public void onButtonPressed(Uri uri) {
@@ -76,10 +77,6 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
         mPresenter.unsubcrible();
     }
 
-    @Override
-    public void setPresenter(IZhiHuPresenter presenter) {
-        mPresenter = presenter;
-    }
 
 
     @Override
@@ -119,6 +116,7 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
 
     @Override
     public void showError(String error) {
+        mRecyclerView.setVisibility(View.GONE);
         mImgBtnRetry.setVisibility(View.VISIBLE);
     }
 
@@ -147,21 +145,25 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
 
     @Override
     protected void initialDate() {
-        mAdapter = new ZhiHuAdapter();
+        mAdapter = new ZhiHuAdapter(mContext);
         if (mPresenter == null) {
             mPresenter = new ZhiHuPresenterImpl(mContext, this);
         }
     }
 
+    @Override
+    public void setPresenter(@NonNull BasePresenter presenter) {
+        mPresenter = (ZhiHuPresenterImpl) presenter;
+    }
+
     @OnClick(R.id.imgBtn_retry)
     public void onClick() {
-
+        loadData();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState) {
-        // TODO: inflate a fragment view
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;

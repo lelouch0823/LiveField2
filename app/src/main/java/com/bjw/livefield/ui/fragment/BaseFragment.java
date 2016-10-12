@@ -1,15 +1,17 @@
 package com.bjw.livefield.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bjw.livefield.presenter.IZhiHuPresenter;
+import com.bjw.livefield.presenter.BasePresenter;
 import com.bjw.livefield.ui.view.BaseView;
 
 import butterknife.ButterKnife;
@@ -21,7 +23,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends Fragment implements BaseView{
 
-    public Context mContext;
+    public Activity mContext;
 
     @Nullable
     @Override
@@ -42,7 +44,7 @@ public abstract class BaseFragment extends Fragment implements BaseView{
 
     protected abstract void initialDate();
 
-    public abstract void setPresenter(IZhiHuPresenter presenter);
+    public abstract void setPresenter(@NonNull BasePresenter presenter);
 
 
     /**
@@ -64,6 +66,8 @@ public abstract class BaseFragment extends Fragment implements BaseView{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        if (context instanceof Activity) {
+            mContext = (Activity) context;
+        }
     }
 }

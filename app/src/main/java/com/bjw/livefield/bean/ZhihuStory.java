@@ -2,6 +2,8 @@ package com.bjw.livefield.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Arrays;
+
 /**
  * author: Administrator
  * created on: 2016/9/29 0029 19:58
@@ -57,5 +59,16 @@ public class ZhihuStory  {
 
     public void setCss(String[] css) {
         this.css = css;
+    }
+
+    @Override
+    public String toString() {
+        return "ZhihuStory{" +
+                "body='" + body + '\'' +
+                ", title='" + title + '\'' +
+                ", image='" + image + '\'' +
+                ", mShareUrl='" + mShareUrl + '\'' +
+                ", css=" + Arrays.toString(css) +
+                '}';
     }
 }
