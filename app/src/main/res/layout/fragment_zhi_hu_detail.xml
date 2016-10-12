@@ -66,4 +66,14 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_share_zhihu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_share_white_36dp"
+        app:layout_anchor="@id/app_bar_zhihu_detail"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_anchorGravity="bottom|end"/>
+
 </android.support.design.widget.CoordinatorLayout>
