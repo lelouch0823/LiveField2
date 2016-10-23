@@ -28,7 +28,8 @@ public class ZhiHuDetailPresenterImpl extends BasePresenterImpl implements IZhiH
 
     @Override
     public void getZhiHuDetail(String id) {
-        Subscription subscribe = mModel.getZhiHuStory(id).subscribeOn(Schedulers.io())
+        Subscription subscribe = mModel.getZhiHuStory(id)
+                .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {

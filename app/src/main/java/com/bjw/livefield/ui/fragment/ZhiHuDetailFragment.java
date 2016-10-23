@@ -1,6 +1,7 @@
 package com.bjw.livefield.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -53,12 +54,12 @@ public class ZhiHuDetailFragment extends BaseFragment implements IZhiHuDetailVie
 
     @Override
     protected void initialView() {
+        mToolbar.setTitleTextColor(Color.BLACK);
         mToolbar.setTitle(mTitle);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mContext.finish();
-                Logger.i("dd");
             }
         });
         WebSettings settings = mWvZhiHuContent.getSettings();
@@ -140,6 +141,7 @@ public class ZhiHuDetailFragment extends BaseFragment implements IZhiHuDetailVie
         String body = zhihuStory.getBody();
         String[] css = zhihuStory.getCss();
         String data = WebUtil.buildHtmlWithCss(body, css, false);
-        mWvZhiHuContent.loadDataWithBaseURL(WebUtil.BASE_URL, data, WebUtil.MIME_TYPE, WebUtil.ENCODING, WebUtil.FAIL_URL);
+        mWvZhiHuContent.loadDataWithBaseURL(WebUtil.BASE_URL, data,
+                WebUtil.MIME_TYPE, WebUtil.ENCODING, WebUtil.FAIL_URL);
     }
 }

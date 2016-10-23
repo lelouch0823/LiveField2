@@ -24,6 +24,7 @@ import com.bjw.livefield.ui.view.implView.IZhiHuView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 
 public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
@@ -107,6 +108,7 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     @Override
     public void hidenProgressDialog() {
         if (!mRefreshLayout.isRefreshing()) {
+
             mPbLoading.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
         } else {
@@ -138,6 +140,7 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
 
     private void loadData() {
         if (mAdapter.getItemCount() > 0) {
+            mImgBtnRetry.setVisibility(View.GONE);
             mAdapter.clearDate();
         }
         mPresenter.getLastZhiHuNews();

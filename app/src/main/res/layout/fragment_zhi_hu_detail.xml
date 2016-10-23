@@ -41,8 +41,9 @@
                 android:id="@+id/tb_zhuhu_detail"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:titleTextColor="@color/colorPrimary"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back_white_36dp"
+                app:navigationIcon="@drawable/ic_arrow_back"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 />
 

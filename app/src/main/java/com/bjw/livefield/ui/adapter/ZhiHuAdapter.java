@@ -39,8 +39,9 @@ public class ZhiHuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ZhiHuHolder zhiHuHolder = new ZhiHuHolder(LayoutInflater.from(
-                MyApplication.getContext()).inflate(R.layout.item_zhihu_list, parent, false));
+        ZhiHuHolder zhiHuHolder = new ZhiHuHolder(LayoutInflater.from
+                (MyApplication.getContext())
+                .inflate(R.layout.item_zhi_hu_list, parent, false));
         return zhiHuHolder;
     }
 
@@ -53,7 +54,6 @@ public class ZhiHuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         width = MyApplication.mContext.getResources().getDimension(R.dimen.zhihu_list_item_pic_width);
         widthPx = DensityUtil.dip2px(MyApplication.mContext, width);
         heighPx = widthPx * 3 / 4;
-
         final ZhihuDailyItem zhihuDailyItem = mStories.get(position);
         final String imgUrl = zhihuDailyItem.getImages()[0];
         final String title = zhihuDailyItem.getTitle();

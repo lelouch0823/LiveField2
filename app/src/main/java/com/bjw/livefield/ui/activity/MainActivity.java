@@ -12,7 +12,6 @@ import com.bjw.livefield.ui.fragment.ZhiHuFragment;
 public class MainActivity extends SingleFragmentActivity implements ZhiHuFragment.OnFragmentInteractionListener{
 
 
-
     public ZhiHuFragment mZhiHuFragment;
 
     @Override

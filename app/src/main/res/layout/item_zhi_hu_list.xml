@@ -10,15 +10,15 @@
 
     <ImageView
         android:id="@+id/iv_pic"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical"
         android:layout_width="@dimen/zhihu_list_item_pic_width"
         android:layout_height="@dimen/zhihu_list_item_pic_height"/>
 
     <TextView
         android:layout_marginLeft="6dp"
         android:layout_marginStart="6dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
+        android:paddingRight="8dp"
+        android:paddingEnd="8dp"
         android:id="@+id/tv_title"
         android:textSize="16sp"
         android:textColor="@color/zhihuListText"

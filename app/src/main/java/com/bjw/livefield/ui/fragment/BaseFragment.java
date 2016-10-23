@@ -23,6 +23,9 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends Fragment implements BaseView{
 
+    /**
+     * The M context.
+     */
     public Activity mContext;
 
     @Nullable
@@ -40,10 +43,22 @@ public abstract class BaseFragment extends Fragment implements BaseView{
         initialView();
     }
 
+
+    /**
+     * 初始化控件.
+     */
     protected abstract void initialView();
 
+    /**
+     * 初始化数据.
+     */
     protected abstract void initialDate();
 
+    /**
+     * 设置presenter
+     *
+     * @param presenter the presenter
+     */
     public abstract void setPresenter(@NonNull BasePresenter presenter);
 
 
