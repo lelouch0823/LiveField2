@@ -24,7 +24,6 @@ import com.bjw.livefield.ui.view.implView.IZhiHuView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
 
 
 public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
@@ -131,6 +130,7 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
                 mPresenter.getLastZhiHuNews();
             }
         });
+        
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);

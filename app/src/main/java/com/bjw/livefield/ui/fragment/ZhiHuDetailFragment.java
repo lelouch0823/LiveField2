@@ -136,7 +136,6 @@ public class ZhiHuDetailFragment extends BaseFragment implements IZhiHuDetailVie
         Glide.with(this).load(image)
                 .fitCenter()
                 .into(mImageView);
-
         String url = zhihuStory.getShareUrl();
         String body = zhihuStory.getBody();
         String[] css = zhihuStory.getCss();

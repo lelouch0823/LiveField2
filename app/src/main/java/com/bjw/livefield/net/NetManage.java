@@ -50,8 +50,8 @@ public class NetManage {
         }
     };
     private static File httpCacheDirectory = new File(MyApplication
-            .getContext().getCacheDir(), "zhihuCache");
-    private static int cacheSize = 1024 * 1024 * 10;
+            .getContext().getCacheDir(), "LiveCache");
+    private static int cacheSize = 1024 * 1024 * 10;//10mb缓存
     private static Cache sCache = new Cache(httpCacheDirectory, cacheSize);
     private static OkHttpClient sClient = new OkHttpClient.Builder()
             .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
