@@ -21,9 +21,28 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * createTime: 2016/3 0003 15:45
  */
 public class NetManage {
-    private static NetManage sManage;
+    private static volatile NetManage sManage;
     private ZhiHuService mZhiHuService;
+    private static volatile NetManage sInstance = null;
 
+    private NetManage() {
+
+    }
+
+    public static NetManage getInstance() {
+        NetManage instance = sInstance;
+        if (instance == null) {
+            synchronized (NetManage.class) {
+                instance = sInstance;
+
+                if (instance == null) {
+                    instance = new NetManage();
+                    sInstance = instance;
+                }
+            }
+        }
+        return instance;
+    }
     private Object zhihuMonitor = new Object();
     /**
      * 自定义拦截器及有无网络的缓存过期时间
@@ -61,16 +80,6 @@ public class NetManage {
 
     private static final String ZHI_HU_BASE_URL = "http://news-at.zhihu.com";
 
-    public static NetManage getInstance() {
-        if (sManage == null) {
-            synchronized (NetManage.class) {
-                if (sManage == null) {
-                    sManage = new NetManage();
-                }
-            }
-        }
-        return sManage;
-    }
 
 
     public ZhiHuService getZhiHuService() {

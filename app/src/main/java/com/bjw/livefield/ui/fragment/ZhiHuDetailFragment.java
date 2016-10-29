@@ -67,7 +67,6 @@ public class ZhiHuDetailFragment extends BaseFragment implements IZhiHuDetailVie
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         settings.setLoadWithOverviewMode(true);
         settings.setBuiltInZoomControls(true);
-        //settings.setUseWideViewPort(true);造成文字太小
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
         settings.setAppCachePath(mContext.getCacheDir().getAbsolutePath() + "/webViewCache");

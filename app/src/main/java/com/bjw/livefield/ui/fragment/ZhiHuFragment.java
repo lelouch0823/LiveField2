@@ -1,13 +1,11 @@
 package com.bjw.livefield.ui.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +16,10 @@ import com.bjw.livefield.R;
 import com.bjw.livefield.bean.ZhiHuDaily;
 import com.bjw.livefield.presenter.BasePresenter;
 import com.bjw.livefield.presenter.impl.ZhiHuPresenterImpl;
-import com.bjw.livefield.ui.adapter.ZhiHuAdapter;
+import com.bjw.livefield.ui.adapter.ZhiHuListAdapter;
 import com.bjw.livefield.ui.view.implView.IZhiHuView;
+import com.jude.easyrecyclerview.EasyRecyclerView;
+import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +29,7 @@ import butterknife.OnClick;
 public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
 
     @BindView(R.id.rv_zhihu_dailies)
-    RecyclerView mRecyclerView;
+    EasyRecyclerView mRecyclerView;
     @BindView(R.id.pg_loading)
     ProgressBar mPbLoading;
     @BindView(R.id.imgBtn_retry)
@@ -38,26 +38,15 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     SwipeRefreshLayout mRefreshLayout;
 
 
-    private OnFragmentInteractionListener mListener;
-    public ZhiHuAdapter mAdapter;
+    public ZhiHuListAdapter mAdapter;
     public ZhiHuPresenterImpl mPresenter;
+    public String mDate;
 
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     /**
@@ -73,10 +62,8 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-        mPresenter.unsubcrible();
+        mPresenter.unsubscribe();
     }
-
 
 
     @Override
@@ -86,13 +73,22 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
 
     @Override
     public void updateList(ZhiHuDaily daily) {
+        mDate = daily.getDate();
         if (mAdapter != null) {
             if (mRefreshLayout.isRefreshing()) {
-                mAdapter.clearDate();
-                mAdapter.addItem(daily.getStories());
+                mAdapter.clear();
+                mAdapter.addAll(daily.getStories());
             } else {
-                mAdapter.addItem(daily.getStories());
+                mAdapter.addAll(daily.getStories());
             }
+        }
+    }
+
+    @Override
+    public void onListLoadMore(ZhiHuDaily daily) {
+        if (mAdapter != null) {
+            mDate = daily.getDate();
+            mAdapter.addAll(daily.getStories());
         }
     }
 
@@ -107,11 +103,11 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     @Override
     public void hidenProgressDialog() {
         if (!mRefreshLayout.isRefreshing()) {
-
+            mImgBtnRetry.setVisibility(View.GONE);
             mPbLoading.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
         } else {
-         mRefreshLayout.setRefreshing(false);
+            mRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -123,6 +119,7 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
 
     @Override
     protected void initialView() {
+
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -130,25 +127,30 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
                 mPresenter.getLastZhiHuNews();
             }
         });
-        
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setMore(R.layout.item_loading, new RecyclerArrayAdapter.OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                //mPresenter.getZhiHuDaily(mDate);
+                mPresenter.getZhiHuDailyOrCache(mDate);
+            }
+        });
         loadData();
     }
 
     private void loadData() {
         if (mAdapter.getItemCount() > 0) {
             mImgBtnRetry.setVisibility(View.GONE);
-            mAdapter.clearDate();
+            mAdapter.clear();
         }
         mPresenter.getLastZhiHuNews();
     }
 
     @Override
     protected void initialDate() {
-        mAdapter = new ZhiHuAdapter(mContext);
+        mAdapter = new ZhiHuListAdapter(mContext);
         if (mPresenter == null) {
             mPresenter = new ZhiHuPresenterImpl(mContext, this);
         }
@@ -173,8 +175,4 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     }
 
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

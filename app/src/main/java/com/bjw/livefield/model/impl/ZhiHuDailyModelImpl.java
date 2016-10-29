@@ -21,8 +21,9 @@ public class ZhiHuDailyModelImpl implements IZhiHuDailyModel {
     }
 
     @Override
-    public Observable<ZhiHuDaily> getCurrentZhiHuDaily() {
-        return null;
+    public Observable<ZhiHuDaily> getCurrentZhiHuDaily(String date) {
+        ZhiHuService zhiHuService = NetManage.getInstance().getZhiHuService();
+        return zhiHuService.getTheDaily(date);
     }
 
     @Override

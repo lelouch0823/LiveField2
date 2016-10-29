@@ -2,6 +2,7 @@ package com.bjw.livefield.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,8 @@ import java.util.ArrayList;
  * created on: 2016/9/29 0029 19:58
  * description:
  */
-public class ZhiHuDaily {
+public class ZhiHuDaily implements Serializable {
+
     @SerializedName("date")
     private String date;
     @SerializedName("top_stories")

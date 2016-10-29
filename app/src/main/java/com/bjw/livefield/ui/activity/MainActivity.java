@@ -2,17 +2,29 @@ package com.bjw.livefield.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 
 import com.bjw.livefield.R;
 import com.bjw.livefield.presenter.impl.ZhiHuPresenterImpl;
 import com.bjw.livefield.ui.fragment.ZhiHuFragment;
 
-public class MainActivity extends SingleFragmentActivity implements ZhiHuFragment.OnFragmentInteractionListener{
+import butterknife.BindView;
+
+public class MainActivity extends SingleFragmentActivity {
 
 
     public ZhiHuFragment mZhiHuFragment;
+    @BindView(R.id.tb_main)
+    Toolbar mToolbar;
+
+    @Override
+    protected void initView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mToolbar.setNavigationIcon(R.drawable.ic_menu_black_36dp);
+        }
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -21,6 +33,7 @@ public class MainActivity extends SingleFragmentActivity implements ZhiHuFragmen
 
     @Override
     protected Fragment createFragment() {
+
         if (mZhiHuFragment == null) {
             mZhiHuFragment = ZhiHuFragment.newInstance();
         }
@@ -32,7 +45,8 @@ public class MainActivity extends SingleFragmentActivity implements ZhiHuFragmen
 
     /**
      * 开启本Activity的方法
-     * @param context  开启本Activity的上下文
+     *
+     * @param context 开启本Activity的上下文
      */
     public static void start(Context context) {
 
@@ -40,14 +54,4 @@ public class MainActivity extends SingleFragmentActivity implements ZhiHuFragmen
         context.startActivity(starter);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    public interface LoadingMoreItem {
-        void loadFinish();
-
-        void loadStart();
-    }
 }

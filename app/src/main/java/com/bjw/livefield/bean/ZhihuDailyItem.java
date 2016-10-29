@@ -2,12 +2,14 @@ package com.bjw.livefield.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * author: Administrator
  * created on: 2016/9/29 0029 19:58
  * description:
  */
-public class ZhihuDailyItem{
+public class ZhihuDailyItem implements Serializable{
     @SerializedName("images")
     private String[] images;
     @SerializedName("type")

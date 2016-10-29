@@ -11,5 +11,5 @@ public interface BasePresenter {
 
     void addSubscription(Subscription subscription);
 
-    void unsubcrible();
+    void unsubscribe();
 }

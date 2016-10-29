@@ -10,4 +10,6 @@ import com.bjw.livefield.ui.view.BaseView;
  */
 public interface IZhiHuView extends BaseView {
     void updateList(ZhiHuDaily daily);
+
+    void onListLoadMore(ZhiHuDaily daily);
 }

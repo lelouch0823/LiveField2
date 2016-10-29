@@ -23,7 +23,7 @@ public class BasePresenterImpl implements BasePresenter {
     }
 
     @Override
-    public void unsubcrible() {
+    public void unsubscribe() {
         if (mSubscription != null&&!mSubscription.isUnsubscribed()) {
             mSubscription.unsubscribe();
         }

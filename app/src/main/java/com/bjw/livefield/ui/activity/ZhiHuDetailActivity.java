@@ -16,6 +16,11 @@ public class ZhiHuDetailActivity extends SingleFragmentActivity {
     public static final String DETAIL_IMG_URL = "url";
 
     @Override
+    protected void initView() {
+
+    }
+
+    @Override
     protected int getLayoutResId() {
         return R.layout.activity_zhi_hu_detail;
     }

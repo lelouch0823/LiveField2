@@ -13,7 +13,7 @@ import rx.Observable;
 public interface IZhiHuDailyModel {
     Observable<ZhiHuDaily> getLastZhiHuDaily();
 
-    Observable<ZhiHuDaily> getCurrentZhiHuDaily();
+    Observable<ZhiHuDaily> getCurrentZhiHuDaily(String date);
 
     Observable<ZhihuStory> getZhiHuStory(String id);
 
