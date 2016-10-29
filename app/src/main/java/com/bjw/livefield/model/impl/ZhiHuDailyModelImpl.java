@@ -14,6 +14,10 @@ import rx.Observable;
  * description:
  */
 public class ZhiHuDailyModelImpl implements IZhiHuDailyModel {
+/*    @Inject
+    public ZhiHuDailyModelImpl() {
+    }*/
+
     @Override
     public Observable<ZhiHuDaily> getLastZhiHuDaily() {
         ZhiHuService zhiHuService = NetManage.getInstance().getZhiHuService();

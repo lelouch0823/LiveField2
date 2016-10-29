@@ -5,6 +5,8 @@ import com.bjw.livefield.model.impl.ZhiHuDailyModelImpl;
 import com.bjw.livefield.presenter.IZhiHuDetailPresenter;
 import com.bjw.livefield.ui.view.implView.IZhiHuDetailView;
 
+import javax.inject.Inject;
+
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,6 +23,7 @@ public class ZhiHuDetailPresenterImpl extends BasePresenterImpl implements IZhiH
     public IZhiHuDetailView mView;
     public ZhiHuDailyModelImpl mModel;
 
+    @Inject
     public ZhiHuDetailPresenterImpl(IZhiHuDetailView view) {
         mView = view;
         mModel = new ZhiHuDailyModelImpl();

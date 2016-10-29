@@ -17,13 +17,16 @@ import android.widget.ImageView;
 
 import com.bjw.livefield.R;
 import com.bjw.livefield.bean.ZhihuStory;
-import com.bjw.livefield.presenter.BasePresenter;
+import com.bjw.livefield.dagger.componet.DaggerZhiHuDetailFragmentComponent;
+import com.bjw.livefield.dagger.module.ZhiHuDetailFragmentModule;
 import com.bjw.livefield.presenter.impl.ZhiHuDetailPresenterImpl;
 import com.bjw.livefield.ui.activity.ZhiHuDetailActivity;
 import com.bjw.livefield.ui.view.implView.IZhiHuDetailView;
 import com.bjw.livefield.utils.WebUtil;
 import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +46,8 @@ public class ZhiHuDetailFragment extends BaseFragment implements IZhiHuDetailVie
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.app_bar_zhihu_detail)
     AppBarLayout mAppBarLayout;
+
+    @Inject
     public ZhiHuDetailPresenterImpl mPresenter;
     public String mUrl;
     public String mTitle;
@@ -80,7 +85,10 @@ public class ZhiHuDetailFragment extends BaseFragment implements IZhiHuDetailVie
     protected void initialDate() {
         Intent intent = mContext.getIntent();
         if (mPresenter == null) {
-            mPresenter = new ZhiHuDetailPresenterImpl(this);
+            DaggerZhiHuDetailFragmentComponent.builder()
+                    .zhiHuDetailFragmentModule(new ZhiHuDetailFragmentModule(this)).build().in(this);
+            
+            //mPresenter = new ZhiHuDetailPresenterImpl(this);
         }
         if (intent != null) {
             mUrl = intent.getStringExtra(ZhiHuDetailActivity.DETAIL_IMG_URL);
@@ -88,11 +96,7 @@ public class ZhiHuDetailFragment extends BaseFragment implements IZhiHuDetailVie
             mId = intent.getStringExtra(ZhiHuDetailActivity.DETAIL_ID);
         }
     }
-
-    @Override
-    public void setPresenter(BasePresenter presenter) {
-        mPresenter = (ZhiHuDetailPresenterImpl) presenter;
-    }
+    
 
     @Override
     protected int getLayoutResId() {

@@ -2,7 +2,6 @@ package com.bjw.livefield.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,12 +13,16 @@ import android.widget.ProgressBar;
 
 import com.bjw.livefield.R;
 import com.bjw.livefield.bean.ZhiHuDaily;
-import com.bjw.livefield.presenter.BasePresenter;
+import com.bjw.livefield.dagger.componet.DaggerzhiHuFragmentComponent;
+import com.bjw.livefield.dagger.componet.zhiHuFragmentComponent;
+import com.bjw.livefield.dagger.module.ZhiHuFragmentModule;
 import com.bjw.livefield.presenter.impl.ZhiHuPresenterImpl;
 import com.bjw.livefield.ui.adapter.ZhiHuListAdapter;
 import com.bjw.livefield.ui.view.implView.IZhiHuView;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,16 +40,31 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     @BindView(R.id.srl_zhihu_refresh)
     SwipeRefreshLayout mRefreshLayout;
 
+    @Inject
+   ZhiHuPresenterImpl mPresenter;
 
     public ZhiHuListAdapter mAdapter;
-    public ZhiHuPresenterImpl mPresenter;
-    public String mDate;
 
+    public String mDate;
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mPresenter.unsubscribe();
     }
 
     /**
@@ -57,12 +75,6 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     public static ZhiHuFragment newInstance() {
         ZhiHuFragment fragment = new ZhiHuFragment();
         return fragment;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mPresenter.unsubscribe();
     }
 
 
@@ -152,26 +164,17 @@ public class ZhiHuFragment extends BaseFragment implements IZhiHuView {
     protected void initialDate() {
         mAdapter = new ZhiHuListAdapter(mContext);
         if (mPresenter == null) {
-            mPresenter = new ZhiHuPresenterImpl(mContext, this);
+            zhiHuFragmentComponent build = DaggerzhiHuFragmentComponent.builder()
+                    .zhiHuFragmentModule(new ZhiHuFragmentModule(this)).build();
+            build.in(this);
+            //mPresenter = new ZhiHuPresenterImpl(mContext, this);
         }
     }
-
-    @Override
-    public void setPresenter(@NonNull BasePresenter presenter) {
-        mPresenter = (ZhiHuPresenterImpl) presenter;
-    }
+    
 
     @OnClick(R.id.imgBtn_retry)
     public void onClick() {
         loadData();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
     }
 
 

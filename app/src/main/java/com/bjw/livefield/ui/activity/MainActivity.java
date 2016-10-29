@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 
 import com.bjw.livefield.R;
-import com.bjw.livefield.presenter.impl.ZhiHuPresenterImpl;
 import com.bjw.livefield.ui.fragment.ZhiHuFragment;
 
 import butterknife.BindView;
@@ -37,8 +36,9 @@ public class MainActivity extends SingleFragmentActivity {
         if (mZhiHuFragment == null) {
             mZhiHuFragment = ZhiHuFragment.newInstance();
         }
-        ZhiHuPresenterImpl presenter = new ZhiHuPresenterImpl(this, mZhiHuFragment);
-        mZhiHuFragment.setPresenter(presenter);
+        //不使用Dagger2的实现vp结合
+        //ZhiHuPresenterImpl presenter = new ZhiHuPresenterImpl(this, mZhiHuFragment);
+        //mZhiHuFragment.setPresenter(presenter);
         return mZhiHuFragment;
     }
 

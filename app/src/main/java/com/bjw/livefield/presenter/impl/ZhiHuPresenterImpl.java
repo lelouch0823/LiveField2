@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -37,22 +39,24 @@ public class ZhiHuPresenterImpl extends BasePresenterImpl implements IZhiHuPrese
 
     private IZhiHuView mIZhiHuView;
     private CacheUtil mCacheUtil;
-    private ZhiHuDailyModelImpl mModel;
+    /*@Inject*/
+    ZhiHuDailyModelImpl mModel;
+
     private Gson mGson = new Gson();
     public Context mContext;
 
 
     /**
      * 初始化方法并完成缓存工具类,View,Model的初始化.
-     *
-     * @param context    the context
      * @param IZhiHuView the zhi hu view
      */
-    public ZhiHuPresenterImpl(Context context, IZhiHuView IZhiHuView) {
-        mCacheUtil = CacheUtil.get(context);
+
+    @Inject
+    public ZhiHuPresenterImpl(IZhiHuView IZhiHuView) {
+        mCacheUtil = CacheUtil.get(MyApplication.getContext());
         mIZhiHuView = IZhiHuView;
         mModel = new ZhiHuDailyModelImpl();
-        mContext = context;
+        mContext = MyApplication.getContext();
     }
 
     @Override
@@ -128,7 +132,6 @@ public class ZhiHuPresenterImpl extends BasePresenterImpl implements IZhiHuPrese
             public void onNext(ZhiHuDaily daily) {
                 String date = daily.getDate();
                 mIZhiHuView.onListLoadMore(daily);
-                Logger.i(date);
                 LogUtils.logd(date);
             }
         });

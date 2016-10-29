@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bjw.livefield.presenter.BasePresenter;
 import com.bjw.livefield.ui.view.BaseView;
 
 import butterknife.ButterKnife;
@@ -54,12 +52,6 @@ public abstract class BaseFragment extends Fragment implements BaseView{
      */
     protected abstract void initialDate();
 
-    /**
-     * 设置presenter
-     *
-     * @param presenter the presenter
-     */
-    public abstract void setPresenter(@NonNull BasePresenter presenter);
 
 
     /**
